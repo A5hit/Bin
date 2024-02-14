@@ -40,6 +40,7 @@ public class steam{
 
     private static String getVeggiePrice(WebElement s) {
        String priceValue =  s.findElement(By.xpath("following-sibling::td[1]")).getText();
+
         return priceValue;
     }
 }
