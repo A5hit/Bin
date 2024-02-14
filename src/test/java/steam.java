@@ -34,7 +34,7 @@ public class steam{
        price.forEach(a->System.out.println(a));
 
 
-        //driver.close();
+        driver.close();
 
     }
 
