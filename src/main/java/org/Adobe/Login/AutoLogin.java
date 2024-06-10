@@ -31,12 +31,18 @@ public class AutoLogin {
         loginpage.passwordField().sendKeys("Send Password here");
         loginpage.getRememberMeButton().click();
 
-        ////This Element is inside single shadow DOM.
+        //This Element is inside single shadow DOM.
+        // clicks Continue button
         String cssSelectorForHost1 = "x-welcome-modal[size='l']";
         Thread.sleep(1000);
         SearchContext shadow = driver.findElement(By.cssSelector("x-welcome-modal[size='l']")).getShadowRoot();
         Thread.sleep(1000);
         shadow.findElement(By.cssSelector("sp-button[role='button']")).click();
+
+        //Click Let's Go button
+        //This Element is inside single shadow DOM.
+        Thread.sleep(3000);
+        shadow.findElement(By.cssSelector("sp-button[role='button'][size='l'][data-test-id='x-dialog-primary-cta']"));
     }
 
 }
