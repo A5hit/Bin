@@ -12,6 +12,7 @@ import java.time.Duration;
 public class LoginPage {
     WebDriver driver;
     WebDriverWait wait;
+
     public LoginPage(WebDriver driver) {
         this.driver=driver;
         this.wait= new WebDriverWait(driver, Duration.ofSeconds(10));
@@ -27,24 +28,31 @@ public class LoginPage {
     @FindBy(xpath="//input[@name='passwd']")
     WebElement passwordInputFiled ;
 
-    @FindBy(xpath="//input[@type='submit']")
+    @FindBy(css="input[type='submit']")
     WebElement rememberMeButton;
 
     public WebElement emailInput(){
         return emailInputField ;
     }
 
-    public void clickContinue (){
-        continueButton.click();
+    public WebElement getEmailContinue (){
+        return continueButton ;
     }
 
     public WebElement passwordField(){
         return passwordInputFiled;
     }
 
-    public WebElement getRememberMeButton(){
+    public WebElement getPasswordContinue(){
         return rememberMeButton;
     }
+
+    public void clickRememberMeButton(){
+        rememberMeButton.click();
+    }
+
+
+
 
 
 
