@@ -9,37 +9,48 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.util.concurrent.TimeUnit;
+import java.time.Duration;
 
-public class AutoLogin {
+public class AutoLogin extends Utils {
     WebDriver driver;
     LoginPage loginpage;
+    GoogleLogin googlelogin;
 
 
     @BeforeClass
     public void setup() {
-        System.setProperty("webdriver.chrome.driver", "/Users/ashit/Desktop/chromedriver"); // add you webdriver's directory
+        System.setProperty("webdriver.chrome.driver", "//Users//45hit//Desktop//chromedriver"); // add you webdriver's directory
         driver = new ChromeDriver();
         loginpage = new LoginPage(driver);
-        driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
+        googlelogin = new GoogleLogin(driver);
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.get("https://new.express.adobe.com/");
     }
 
     @Test
     public void Login() throws InterruptedException {
 
-        loginpage.emailInput().sendKeys("IshaanIshaan2484@tmspalam.onmicrosoft.com");
+        loginpage.emailInput().sendKeys(getEmail());
         loginpage.getEmailContinue().click();
-        Thread.sleep(2000);
-        loginpage.passwordField().sendKeys("Student@2024");
-        Thread.sleep(2000);
-        loginpage.getPasswordContinue().click();
-        Thread.sleep(2000);
-        loginpage.clickRememberMeButton();
-
+        Thread.sleep(3000);
+        if (googlelogin.getGEmailField().isDisplayed()){
+            googlelogin.getGEmailField().sendKeys(getEmail());
+            googlelogin.getGContinueButton().click();
+            Thread.sleep(3000);
+            googlelogin.getGPasswordField().sendKeys(getPassword());
+            googlelogin.getGContinueButton().click();
+        }else {
+            loginpage.passwordField().sendKeys(getPassword());
+            Thread.sleep(2000);
+            loginpage.getPasswordContinue().click();
+            loginpage.clickRememberMeButton();
+        }
+        Thread.sleep(5000);
         // Click Continue button falls under Shadow DOM
-        SearchContext shadowHost2 = driver.findElement(By.cssSelector("x-welcome-modal[size='l']")).getShadowRoot();
-        WebElement shadowContinueButton = shadowHost2.findElement(By.cssSelector("sp-button[size='l']"));
+        SearchContext shadowHost0 = driver.findElement(By.cssSelector("x-app[dir='ltr']")).getShadowRoot();
+        SearchContext shadowHost1 = shadowHost0.findElement(By.cssSelector("x-welcome-modal-host[dir='ltr']")).getShadowRoot();
+        SearchContext shadowHost2 = shadowHost1.findElement(By.cssSelector("x-welcome-modal[slot='click-content']")).getShadowRoot();
+        WebElement shadowContinueButton = shadowHost2.findElement(By.cssSelector("sp-button[role='button']"));
         shadowContinueButton.click();
         Thread.sleep(3000);
         shadowContinueButton.click();
