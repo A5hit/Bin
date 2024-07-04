@@ -29,31 +29,35 @@ public class AutoLogin extends Utils {
 
     @Test
     public void Login() throws InterruptedException {
-
-        loginpage.emailInput().sendKeys(getEmail());
-        loginpage.getEmailContinue().click();
-        Thread.sleep(3000);
-        if (googlelogin.getGEmailField().isDisplayed()){
-            googlelogin.getGEmailField().sendKeys(getEmail());
-            googlelogin.getGContinueButton().click();
+        String[] emailList = getEmail();
+        for(String email:emailList){
+            loginpage.emailInput().sendKeys(email);
+            loginpage.getEmailContinue().click();
             Thread.sleep(3000);
-            googlelogin.getGPasswordField().sendKeys(getPassword());
-            googlelogin.getGContinueButton().click();
-        }else {
-            loginpage.passwordField().sendKeys(getPassword());
-            Thread.sleep(2000);
-            loginpage.getPasswordContinue().click();
-            loginpage.clickRememberMeButton();
+            if (googlelogin.getGEmailField().isDisplayed()){
+                googlelogin.getGEmailField().sendKeys(email);
+                googlelogin.getGContinueButton().click();
+                Thread.sleep(3000);
+                googlelogin.getGPasswordField().sendKeys(getPassword());
+                googlelogin.getGContinueButton().click();
+            }else {
+                loginpage.passwordField().sendKeys(getPassword());
+                Thread.sleep(2000);
+                loginpage.getPasswordContinue().click();
+                loginpage.clickRememberMeButton();
+            }
+            Thread.sleep(5000);
+            // Click Continue button falls under Shadow DOM
+            SearchContext shadowHost0 = driver.findElement(By.cssSelector("x-app[dir='ltr']")).getShadowRoot();
+            SearchContext shadowHost1 = shadowHost0.findElement(By.cssSelector("x-welcome-modal-host[dir='ltr']")).getShadowRoot();
+            SearchContext shadowHost2 = shadowHost1.findElement(By.cssSelector("x-welcome-modal[slot='click-content']")).getShadowRoot();
+            WebElement shadowContinueButton = shadowHost2.findElement(By.cssSelector("sp-button[role='button']"));
+            shadowContinueButton.click();
+            Thread.sleep(3000);
+            shadowContinueButton.click();
         }
-        Thread.sleep(5000);
-        // Click Continue button falls under Shadow DOM
-        SearchContext shadowHost0 = driver.findElement(By.cssSelector("x-app[dir='ltr']")).getShadowRoot();
-        SearchContext shadowHost1 = shadowHost0.findElement(By.cssSelector("x-welcome-modal-host[dir='ltr']")).getShadowRoot();
-        SearchContext shadowHost2 = shadowHost1.findElement(By.cssSelector("x-welcome-modal[slot='click-content']")).getShadowRoot();
-        WebElement shadowContinueButton = shadowHost2.findElement(By.cssSelector("sp-button[role='button']"));
-        shadowContinueButton.click();
-        Thread.sleep(3000);
-        shadowContinueButton.click();
+
+
     }
 
     @AfterClass

@@ -2,9 +2,10 @@ package org.Adobe.Login;
 
 public class Utils {
 
-    public String getEmail(){
-        String email = "aadhya.7504@kvsrodelhi.in";
-        return email;
+    public String[] getEmail(){
+        String[] emailList = { };//add Emails here
+
+        return emailList;
     }
 
     public String getPassword(){
